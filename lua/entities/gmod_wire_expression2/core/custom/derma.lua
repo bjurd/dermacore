@@ -41,3 +41,7 @@ end
 e2function void panelDock(number identifier, number dock)
 	SendPanelFunction(self, identifier, "Dock", dock)
 end
+
+e2function void panelCenter(number identifier)
+	SendPanelFunction(self, identifier, "Center")
+end
