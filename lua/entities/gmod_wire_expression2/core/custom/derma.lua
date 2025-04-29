@@ -45,3 +45,7 @@ end
 e2function void panelCenter(number identifier)
 	SendPanelFunction(self, identifier, "Center")
 end
+
+e2function void panelSetText(number identifier, string text)
+	SendPanelFunction(self, identifier, "SetText", text)
+end
