@@ -12,7 +12,7 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip
 	dermacore.store.Add(Chip, Identifier, ClassName)
 end)
 
-dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(_, Chip, Identifier)
+dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(Sender, Chip, Identifier)
 	Chip = Entity(Chip)
 
 	if not IsValid(Chip) then return end
