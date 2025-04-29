@@ -26,11 +26,11 @@ e2function void panelRemove(number identifier)
 	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), identifier)
 end
 
-e2function void panelPos(number identifier, number x, number y)
+e2function void panelSetPos(number identifier, number x, number y)
 	SendPanelFunction(self, identifier, "SetPos", x, y)
 end
 
-e2function void panelSize(number identifier, number width, number height)
+e2function void panelSetSize(number identifier, number width, number height)
 	SendPanelFunction(self, identifier, "SetSize", width, height)
 end
 
@@ -52,7 +52,7 @@ e2function number panelGetParent(number identifier)
 	return Parent and Parent.Identifier or 0
 end
 
-e2function void panelDock(number identifier, number dock)
+e2function void panelSetDock(number identifier, number dock)
 	SendPanelFunction(self, identifier, "Dock", dock)
 end
 
