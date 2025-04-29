@@ -21,16 +21,17 @@ local function SendPanelFunction(self, Identifier, Name, ...)
 end
 
 e2function panel panelCreate(string className)
-	local Identifier = dermacore.store.GetNextIdentifier(self.entity)
+	local Identifier = dermacore.store.GetNextIdentifier(self.entity:EntIndex())
 
 	if Identifier < 1 then
 		return self:throw("This chip has hit the Panel limit!", NULLPanel)
 	end
 
 	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, self.entity:EntIndex(), className, Identifier)
-	self.entity:CallOnRemove("dermacore:Cleanup", dermacore.store.Cleanup)
+	self.entity:CallOnRemove("dermacore:Cleanup", dermacore.store.ChipCleanup)
 
-	local Panel = dermacore.store.Add(self.entity, Identifier, className) -- Take the ID slot until the player responds
+	local Panel = dermacore.panel.Create(self.entity:EntIndex(), className, Identifier)
+	dermacore.store.Add(self.entity:EntIndex(), Identifier, Panel) -- Take the ID slot until the player responds
 
 	return Panel
 end
@@ -41,7 +42,7 @@ end
 
 e2function void panel:remove()
 	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), this:GetIdentifier())
-	dermacore.store.Remove(self.entity, this:GetIdentifier())
+	dermacore.store.Remove(self.entity:EntIndex(), this:GetIdentifier())
 end
 
 e2function void panel:setVisible(number visible)
@@ -67,18 +68,18 @@ end
 -- TODO: GetSize
 
 e2function void panel:setParent(panel parent)
-	SendPanelFunction(self, this:GetIdentifier(), "SetParent", dermacore.store.PanelRef(parent:GetIdentifier()))
+	SendPanelFunction(self, this:GetIdentifier(), "SetParent", parent:ToReference())
 	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), this:GetIdentifier(), "GetParent")
 end
 
 e2function panel panel:getParent() -- TODO:
-	local Data = dermacore.store.GetSync(self.entity, this:GetIdentifier(), "GetParent")
+	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "GetParent")
 
 	if not Data then
 		return NULLPanel
 	end
 
-	local Panels = dermacore.store.GetPanels(self.entity)
+	local Panels = dermacore.store.GetPanels(self.entity:EntIndex())
 	local Parent = dermacore.store.PanelUnRef(Panels, Data[1])
 
 	return Parent or NULLPanel

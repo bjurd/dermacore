@@ -2,50 +2,57 @@ dermacore.store = dermacore.store or {}
 
 dermacore.store.HighestID = 1024
 
-function dermacore.store.IsStorage(Object)
-	if SERVER then
-		return istable(Object)
-	elseif CLIENT then
-		return ispanel(Object)
+dermacore.store.Panels = dermacore.store.Panels or {}
+
+function dermacore.store.GetPanels(Chip)
+	if not isnumber(Chip) then
+		error("Tried to GetPanels for non-chip '%s'", Chip)
+		return
 	end
-end
 
-function dermacore.store.PanelRef(Identifier) -- This is a hacky way of passing a Panel by identifier from server
-	return { ["i"] = Identifier }
-end
-
-function dermacore.store.PanelUnRef(Panels, Ref)
-	if istable(Panels) and istable(Ref) and isnumber(Ref.i) then
-		return Panels[Ref.i]
-	else
-		return nil
+	if not dermacore.store.Panels[Chip] then
+		dermacore.store.Panels[Chip] = {}
 	end
+
+	return dermacore.store.Panels[Chip]
 end
 
-function dermacore.store.RefAll(Panels, ...)
-	local Arguments = { ... }
+function dermacore.store.GetNextIdentifier(Chip)
+	local Panels = dermacore.store.GetPanels(Chip)
 
-	for i = 1, #Arguments do
-		local Argument = Arguments[i]
+	local NextID = #Panels + 1
 
-		if dermacore.store.IsStorage(Argument) then
-			if Argument.Identifier then
-				Arguments[i] = dermacore.store.PanelRef(Argument.Identifier)
-			elseif CLIENT then
-				Arguments[i] = -1
-			end
+	if NextID > dermacore.store.HighestID then
+		return -1
+	end
+
+	return NextID
+end
+
+function dermacore.store.Add(Chip, Identifier, StorePanel)
+	dermacore.store.Remove(Chip, Identifier)
+
+	dermacore.store.GetPanels(Chip)[Identifier] = StorePanel
+end
+
+function dermacore.store.Remove(Chip, Identifier)
+	local Panels = dermacore.store.GetPanels(Chip)
+
+	if Panels[Identifier] ~= nil then
+		if IsValid(Panels[Identifier]) then
+			Panels[Identifier]:Remove()
 		end
-	end
 
-	return Arguments
+		Panels[Identifier] = nil
+	end
 end
 
-function dermacore.store.UnRefAll(Panels, ...)
-	local Arguments = { ... }
+function dermacore.store.Cleanup(Chip)
+	local Panels = dermacore.store.GetPanels(Chip)
 
-	for i = 1, #Arguments do
-		Arguments[i] = dermacore.store.PanelUnRef(Panels, Arguments[i]) or Arguments[i]
+	for Identifier, _ in next, Panels do
+		dermacore.store.Remove(Chip, Identifier)
 	end
 
-	return Arguments
+	dermacore.store.Panels[Chip] = nil
 end

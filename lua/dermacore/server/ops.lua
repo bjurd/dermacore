@@ -5,27 +5,28 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip
 	if not isstring(ClassName) then return end
 	if not isnumber(Identifier) then return end
 
-	Chip = Entity(Chip)
+	local ChipEnt = Entity(Chip)
 
-	if not IsValid(Chip) then return end
-	if Chip:GetClass() ~= "gmod_wire_expression2" then return end
+	if not IsValid(ChipEnt) then return end
+	if ChipEnt:GetClass() ~= "gmod_wire_expression2" then return end
 
-	local Context = Chip.context
+	local Context = ChipEnt.context
 	if not istable(Context) or Context.player ~= Sender then return end
 
-	dermacore.store.Add(Chip, Identifier, ClassName)
+	local Panel = dermacore.panel.Create(Chip, ClassName, Identifier)
+	dermacore.store.Add(Chip, Identifier, Panel)
 end)
 
 dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(Sender, Chip, Identifier)
 	if not isnumber(Chip) then return end
 	if not isnumber(Identifier) then return end
 
-	Chip = Entity(Chip)
+	local ChipEnt = Entity(Chip)
 
-	if not IsValid(Chip) then return end
-	if Chip:GetClass() ~= "gmod_wire_expression2" then return end
+	if not IsValid(ChipEnt) then return end
+	if ChipEnt:GetClass() ~= "gmod_wire_expression2" then return end
 
-	local Context = Chip.context
+	local Context = ChipEnt.context
 	if not istable(Context) or Context.player ~= Sender then return end
 
 	dermacore.store.Remove(Chip, Identifier)
@@ -36,12 +37,12 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(Sender, Chip, 
 	if not isnumber(Identifier) then return end
 	if not isstring(Function) or string.len(Function) < 1 then return end
 
-	Chip = Entity(Chip)
+	local ChipEnt = Entity(Chip)
 
-	if not IsValid(Chip) then return end
-	if Chip:GetClass() ~= "gmod_wire_expression2" then return end
+	if not IsValid(ChipEnt) then return end
+	if ChipEnt:GetClass() ~= "gmod_wire_expression2" then return end
 
-	local Context = Chip.context
+	local Context = ChipEnt.context
 	if not istable(Context) or Context.player ~= Sender then return end
 
 	dermacore.store.SaveSync(Chip, Identifier, Function, ...)

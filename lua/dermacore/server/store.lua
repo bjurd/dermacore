@@ -1,62 +1,7 @@
-function dermacore.store.GetPanels(Chip)
-	local Context = Chip.context
-
-	if not istable(Context) then
-		error("Chip has no storage")
-		return {}
-	end
-
-	if not Context.panelStore then
-		Context.panelStore = {}
-	end
-
-	return Context.panelStore
-end
-
-function dermacore.store.GetNextIdentifier(Chip)
-	local Panels = dermacore.store.GetPanels(Chip)
-
-	local NextID = #Panels + 1
-
-	if NextID > dermacore.store.HighestID then
-		return -1
-	end
-
-	return NextID
-end
-
-function dermacore.store.Add(Chip, Identifier, ClassName)
-	local Panels = dermacore.store.GetPanels(Chip)
-
-	Panels[Identifier] = dermacore.panel.Create(Chip:EntIndex(), ClassName, Identifier)
-
-	return Panels[Identifier]
-end
-
-function dermacore.store.Remove(Chip, Identifier)
-	local Panels = dermacore.store.GetPanels(Chip)
-
-	if IsValid(Panels[Identifier]) then
-		Panels[Identifier]:Remove()
-	end
-
-	Panels[Identifier] = nil
-end
-
-function dermacore.store.Cleanup(Chip)
-	if not Chip.context then
-		error("Chip has no context")
-		return
-	end
-
-	dermacore.ops.Send(Chip.context.player, dermacore.enums.ops.CLEANUP, Chip:EntIndex())
-end
-
 function dermacore.store.SaveSync(Chip, Identifier, Function, ...)
-	local Panels = dermacore.store.GetPanels(Chip)
-	local Panel = Panels[Identifier]
+	local Panel = dermacore.store.GetPanels(Chip)[Identifier]
 
-	if not istable(Panel) then
+	if not IsValid(Panel) then
 		error("Got bad panel, somehow...")
 		return
 	end
@@ -65,13 +10,18 @@ function dermacore.store.SaveSync(Chip, Identifier, Function, ...)
 end
 
 function dermacore.store.GetSync(Chip, Identifier, Function)
-	local Panels = dermacore.store.GetPanels(Chip)
-	local Panel = Panels[Identifier]
+	local Panel = dermacore.store.GetPanels(Chip)[Identifier]
 
-	if not istable(Panel) then
+	if not IsValid(Panel) then
 		error("Got bad panel, somehow...")
 		return
 	end
 
 	return Panel[Function]
+end
+
+function dermacore.store.ChipCleanup(Chip)
+	dermacore.store.Cleanup(Chip:EntIndex())
+
+	dermacore.ops.Send(Chip.context.player, dermacore.enums.ops.CLEANUP, Chip:EntIndex())
 end
