@@ -1,6 +1,8 @@
 -- The client can spoof the Identifier here and fuck things up a little bit
 -- Not really a way to fix that because Panels are entirely controlled by the client
 dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip, ClassName, Identifier)
+	Chip = Entity(Chip)
+
 	if not IsValid(Chip) then return end
 	if Chip:GetClass() ~= "gmod_wire_expression2" then return end
 

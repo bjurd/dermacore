@@ -9,7 +9,7 @@ e2function number panelCreate(string className)
 		return self:throw("This chip has hit the Panel limit!", -1)
 	end
 
-	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, self.entity, className, Identifier)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, self.entity:EntIndex(), className, Identifier)
 	self.entity:CallOnRemove("dermacore:Cleanup", dermacore.store.Cleanup)
 
 	return Identifier
@@ -17,5 +17,5 @@ end
 
 e2function void panelRemove(number identifier)
 	dermacore.store.Remove(self.entity, identifier)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity, identifier)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), identifier)
 end

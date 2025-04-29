@@ -1,3 +1,18 @@
+function dermacore.store.GetPanels(Chip)
+	local Context = Chip.context
+
+	if not istable(Context) then
+		error("Chip has no storage")
+		return {}
+	end
+
+	if not Context.panelStore then
+		Context.panelStore = {}
+	end
+
+	return Context.panelStore
+end
+
 function dermacore.store.GetNextIdentifier(Chip)
 	local Panels = dermacore.store.GetPanels(Chip)
 
@@ -28,5 +43,5 @@ function dermacore.store.Cleanup(Chip)
 		return
 	end
 
-	dermacore.ops.Send(Chip.context.player, dermacore.enums.ops.CLEANUP, Chip)
+	dermacore.ops.Send(Chip.context.player, dermacore.enums.ops.CLEANUP, Chip:EntIndex())
 end
