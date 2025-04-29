@@ -1,23 +1,21 @@
 E2Lib.RegisterExtension("dermacore", true, "Allows E2 chips to create Derma UI elements")
 
-local istable = istable -- TODO: Custom ispanel for server (Why does the normal one even exist on server)
-
-registerType(
-	"panel",
-	"p",
-
-	NULL,
-
-	nil,
-	nil,
-	function(Object) return not istable(Object),
-	function(Object) return not istable(Object) or not Object:istable() end
-end)
-
 --[[******************************************************************************]]
 
-e2function panel panelCreate(string className)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, className)
+e2function number panelCreate(string className)
+	local Identifier = dermacore.store.GetNextIdentifier(self.entity)
 
-	return NULL
+	if Identifier < 1 then
+		return self:throw("This chip has hit the Panel limit!", -1)
+	end
+
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, self.entity, className, Identifier)
+	self.entity:CallOnRemove("dermacore:Cleanup", dermacore.store.Cleanup)
+
+	return Identifier
+end
+
+e2function void panelRemove(number identifier)
+	dermacore.store.Remove(self.entity, identifier)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity, identifier)
 end

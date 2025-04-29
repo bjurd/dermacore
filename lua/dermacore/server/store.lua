@@ -1,0 +1,32 @@
+function dermacore.store.GetNextIdentifier(Chip)
+	local Panels = dermacore.store.GetPanels(Chip)
+
+	local NextID = #Panels + 1
+
+	if NextID > dermacore.store.HighestID then
+		return -1
+	end
+
+	return NextID
+end
+
+function dermacore.store.Add(Chip, Identifier, ClassName)
+	local Panels = dermacore.store.GetPanels(Chip)
+
+	Panels[Identifier] = ClassName
+end
+
+function dermacore.store.Remove(Chip, Identifier)
+	local Panels = dermacore.store.GetPanels(Chip)
+
+	Panels[Identifier] = nil
+end
+
+function dermacore.store.Cleanup(Chip)
+	if not Chip.context then
+		error("Chip has no context")
+		return
+	end
+
+	dermacore.ops.Send(Chip.context.player, dermacore.enums.ops.CLEANUP, Chip)
+end
