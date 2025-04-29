@@ -44,13 +44,27 @@ e2function void panel:remove()
 	dermacore.store.Remove(self.entity, this:GetIdentifier())
 end
 
+e2function void panel:setVisible(number visible)
+	SendPanelFunction(self, this:GetIdentifier(), "SetVisible", tobool(visible))
+end
+
+-- TODO: GetVisible
+
+e2function void panel:makePopup()
+	SendPanelFunction(self, this:GetIdentifier(), "MakePopup")
+end
+
 e2function void panel:setPos(number x, number y)
 	SendPanelFunction(self, this:GetIdentifier(), "SetPos", x, y)
 end
 
+-- TODO: GetPos
+
 e2function void panel:setSize(number width, number height)
 	SendPanelFunction(self, this:GetIdentifier(), "SetSize", width, height)
 end
+
+-- TODO: GetSize
 
 e2function void panel:setParent(panel parent)
 	SendPanelFunction(self, this:GetIdentifier(), "SetParent", dermacore.store.PanelRef(parent:GetIdentifier()))
@@ -74,6 +88,8 @@ e2function void panel:dock(number dock)
 	SendPanelFunction(self, this:GetIdentifier(), "Dock", dock)
 end
 
+-- TODO: GetDock
+
 e2function void panel:center()
 	SendPanelFunction(self, this:GetIdentifier(), "Center")
 end
@@ -81,3 +97,5 @@ end
 e2function void panel:setText(string text)
 	SendPanelFunction(self, this:GetIdentifier(), "SetText", text)
 end
+
+-- TODO: GetText
