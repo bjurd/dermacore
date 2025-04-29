@@ -17,23 +17,32 @@ function dermacore.store.Add(Chip, Identifier, Panel)
 	local Panels = dermacore.store.GetPanels(Chip)
 
 	Panels[Identifier] = Panel
+
+	-- TODO: Make this better
+	Panel.OnRemove = function(self)
+		dermacore.store.Remove(Chip, Identifier)
+	end
 end
 
 function dermacore.store.Remove(Chip, Identifier)
 	local Panels = dermacore.store.GetPanels(Chip)
 
-	if IsValid(Panels[Identifier]) then
-		Panels[Identifier]:Remove()
-	end
+	if Panels[Identifier] ~= nil then
+		if IsValid(Panels[Identifier]) then
+			Panels[Identifier]:Remove()
+		end
 
-	Panels[Identifier] = nil
+		Panels[Identifier] = nil
+
+		dermacore.ops.Send(NULL, dermacore.enums.ops.REMOVE, Chip, Identifier)
+	end
 end
 
 function dermacore.store.Cleanup(Chip)
 	local Panels = dermacore.store.GetPanels(Chip)
 
 	for Identifier, _ in next, Panels do
-		dermacore.store.Remove(Chip, Identifier)
+		Panels[Identifier]:Remove()
 	end
 
 	dermacore.store.ChipPanels[Chip] = nil
