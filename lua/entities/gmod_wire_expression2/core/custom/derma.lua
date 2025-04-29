@@ -25,3 +25,15 @@ end
 e2function void panelPos(number identifier, number x, number y)
 	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetPos", x, y)
 end
+
+e2function void panelSize(number identifier, number x, number y)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetSize", x, y)
+end
+
+e2function void panelParent(number identifier, number parent)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetParent", dermacore.store.PanelRef(parent))
+end
+
+e2function void panelDock(number identifier, number dock)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "Dock", dock)
+end
