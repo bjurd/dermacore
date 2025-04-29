@@ -17,6 +17,10 @@ function PANEL:GetChip() -- AccessorFunc sucks
 	return tonumber(self.Chip) or 0
 end
 
+function PANEL:GetChipEnt() -- AccessorFunc sucks
+	return Entity(self:GetChip())
+end
+
 function PANEL:GetIdentifier()
 	return tonumber(self.Identifier) or -1
 end
@@ -27,7 +31,7 @@ function PANEL:IsValid()
 	end
 
 	if SERVER then
-		return IsValid(Entity(self:GetChip()))
+		return IsValid(self:GetChipEnt())
 	elseif CLIENT then
 		return IsValid(self:GetPanel())
 	end
