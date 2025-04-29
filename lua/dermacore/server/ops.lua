@@ -1,6 +1,10 @@
 -- The client can spoof the Identifier here and fuck things up a little bit
 -- Not really a way to fix that because Panels are entirely controlled by the client
 dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip, ClassName, Identifier)
+	if not isnumber(Chip) then return end
+	if not isstring(ClassName) then return end
+	if not isnumber(Identifier) then return end
+
 	Chip = Entity(Chip)
 
 	if not IsValid(Chip) then return end
@@ -13,6 +17,9 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip
 end)
 
 dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(Sender, Chip, Identifier)
+	if not isnumber(Chip) then return end
+	if not isnumber(Identifier) then return end
+
 	Chip = Entity(Chip)
 
 	if not IsValid(Chip) then return end
