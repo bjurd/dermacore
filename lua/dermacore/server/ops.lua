@@ -32,5 +32,7 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(Sender, Chip
 end)
 
 dermacore.ops.RegisterCallback(dermacore.enums.ops.ERROR, function(Sender, Message)
+	if not isstring(Message) or string.len(Message) < 1 then return end
+
 	WireLib.ClientError(Message, Sender)
 end)
