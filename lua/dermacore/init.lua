@@ -16,6 +16,7 @@ AddCSLuaFile("client/store.lua")
 
 if SERVER then
 	include("server/ops.lua")
+	include("server/panel.lua")
 	include("server/store.lua")
 elseif CLIENT then
 	include("client/ops.lua")

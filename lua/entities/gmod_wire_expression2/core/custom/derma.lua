@@ -1,65 +1,83 @@
 E2Lib.RegisterExtension("dermacore", true, "Allows E2 chips to create Derma UI elements")
 
+local NULLPanel = dermacore.panel.Create("Panel", -1)
+
+registerType(
+	"panel",
+	"p",
+
+	NULLPanel,
+
+	nil,
+	nil,
+	function(Object) return not ispanel(Object),
+	function(Object) return not ispanel(Object) or Object == NULLPanel end
+end)
+
 --[[******************************************************************************]]
 
 local function SendPanelFunction(self, Identifier, Name, ...)
 	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), Identifier, Name, ...)
 end
 
-e2function number panelCreate(string className)
+e2function panel panelCreate(string className)
 	local Identifier = dermacore.store.GetNextIdentifier(self.entity)
 
 	if Identifier < 1 then
-		return self:throw("This chip has hit the Panel limit!", -1)
+		return self:throw("This chip has hit the Panel limit!", NULLPanel)
 	end
 
 	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, self.entity:EntIndex(), className, Identifier)
 	self.entity:CallOnRemove("dermacore:Cleanup", dermacore.store.Cleanup)
 
-	dermacore.store.Add(self.entity, Identifier, "") -- Take the ID slot until the player responds
+	local Panel = dermacore.store.Add(self.entity, Identifier, className) -- Take the ID slot until the player responds
 
-	return Identifier
+	return Panel
 end
 
-e2function void panelRemove(number identifier)
-	dermacore.store.Remove(self.entity, identifier)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), identifier)
+e2function string panel:toString()
+	return tostring(this)
 end
 
-e2function void panelSetPos(number identifier, number x, number y)
-	SendPanelFunction(self, identifier, "SetPos", x, y)
+e2function void panel:remove()
+	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), this:GetIdentifier())
+	dermacore.store.Remove(self.entity, this:GetIdentifier())
 end
 
-e2function void panelSetSize(number identifier, number width, number height)
-	SendPanelFunction(self, identifier, "SetSize", width, height)
+e2function void panel:setPos(number x, number y)
+	SendPanelFunction(self, this:GetIdentifier(), "SetPos", x, y)
 end
 
-e2function void panelSetParent(number identifier, number parent)
-	SendPanelFunction(self, identifier, "SetParent", dermacore.store.PanelRef(parent))
-	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), identifier, "GetParent")
+e2function void panel:setSize(number width, number height)
+	SendPanelFunction(self, this:GetIdentifier(), "SetSize", width, height)
 end
 
-e2function number panelGetParent(number identifier)
-	local Data = dermacore.store.GetSync(self.entity, identifier, "GetParent")
+e2function void panel:setParent(panel parent)
+	SendPanelFunction(self, this:GetIdentifier(), "SetParent", dermacore.store.PanelRef(parent:GetIdentifier()))
+	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), this:GetIdentifier(), "GetParent")
+end
+
+e2function panel panel:getParent() -- TODO:
+	local Data = dermacore.store.GetSync(self.entity, this:GetIdentifier(), "GetParent")
 
 	if not Data then
-		return -1
+		return NULLPanel
 	end
 
 	local Panels = dermacore.store.GetPanels(self.entity)
 	local Parent = dermacore.store.PanelUnRef(Panels, Data[1])
 
-	return Parent and Parent.Identifier or 0
+	return Parent or NULLPanel
 end
 
-e2function void panelSetDock(number identifier, number dock)
-	SendPanelFunction(self, identifier, "Dock", dock)
+e2function void panel:dock(number dock)
+	SendPanelFunction(self, this:GetIdentifier(), "Dock", dock)
 end
 
-e2function void panelCenter(number identifier)
-	SendPanelFunction(self, identifier, "Center")
+e2function void panel:center()
+	SendPanelFunction(self, this:GetIdentifier(), "Center")
 end
 
-e2function void panelSetText(number identifier, string text)
-	SendPanelFunction(self, identifier, "SetText", text)
+e2function void panel:setText(string text)
+	SendPanelFunction(self, this:GetIdentifier(), "SetText", text)
 end

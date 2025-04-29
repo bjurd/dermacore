@@ -28,14 +28,17 @@ end
 function dermacore.store.Add(Chip, Identifier, ClassName)
 	local Panels = dermacore.store.GetPanels(Chip)
 
-	Panels[Identifier] = {
-		["ClassName"] = ClassName,
-		["Identifier"] = Identifier
-	}
+	Panels[Identifier] = dermacore.panel.Create(Chip:EntIndex(), ClassName, Identifier)
+
+	return Panels[Identifier]
 end
 
 function dermacore.store.Remove(Chip, Identifier)
 	local Panels = dermacore.store.GetPanels(Chip)
+
+	if IsValid(Panels[Identifier]) then
+		Panels[Identifier]:Remove()
+	end
 
 	Panels[Identifier] = nil
 end
