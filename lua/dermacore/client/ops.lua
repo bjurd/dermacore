@@ -13,13 +13,17 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(_, Chip, Cla
 		return Format("Failed to create Panel of class '%s'", ClassName)
 	end
 
-	Panel.OnRemove = function(self) -- TODO: Make this better
-		dermacore.store.Remove(Chip, Identifier)
-		dermacore.ops.Send(NULL, dermacore.enums.ops.REMOVE, Chip, Identifier)
-	end
-
 	local StorePanel = dermacore.panel.Create(Chip, ClassName, Identifier)
 	StorePanel:SetPanel(Panel)
+
+	dermacore.panel.Hook(Panel, "OnRemove", function(self)
+		dermacore.store.Remove(Chip, Identifier)
+		dermacore.ops.Send(NULL, dermacore.enums.ops.REMOVE, Chip, Identifier)
+	end)
+
+	dermacore.panel.Hook(Panel, "DoClick", function(self)
+		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelClicked")
+	end)
 
 	dermacore.store.Add(Chip, Identifier, StorePanel)
 	dermacore.ops.Send(NULL, dermacore.enums.ops.CREATE, Chip, ClassName, Identifier)

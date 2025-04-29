@@ -48,6 +48,23 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(Sender, Chip, 
 	dermacore.store.SaveSync(Chip, Identifier, Function, ...)
 end)
 
+dermacore.ops.RegisterCallback(dermacore.enums.ops.EVENT, function(Sender, Chip, Panel, Event, ...)
+	if not isnumber(Chip) then return end
+
+	local ChipEnt = Entity(Chip)
+
+	if not IsValid(ChipEnt) then return end
+	if ChipEnt:GetClass() ~= "gmod_wire_expression2" then return end
+
+	local Context = ChipEnt.context
+	if not istable(Context) or Context.player ~= Sender then return end
+
+	Panel = dermacore.panel.UnReference(Panel)
+	if not dermacore.panel.IsPanel(Panel) then return end
+
+	ChipEnt:ExecuteEvent(Event, { Panel })
+end)
+
 dermacore.ops.RegisterCallback(dermacore.enums.ops.ERROR, function(Sender, Message)
 	if not isstring(Message) or string.len(Message) < 1 then return end
 

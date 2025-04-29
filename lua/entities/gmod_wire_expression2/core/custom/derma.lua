@@ -100,3 +100,5 @@ e2function void panel:setText(string text)
 end
 
 -- TODO: GetText
+
+E2Lib.registerEvent("panelClicked", { {"Panel", "p"} })
