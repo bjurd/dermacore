@@ -12,6 +12,8 @@ e2function number panelCreate(string className)
 	dermacore.ops.Send(self.player, dermacore.enums.ops.CREATE, self.entity:EntIndex(), className, Identifier)
 	self.entity:CallOnRemove("dermacore:Cleanup", dermacore.store.Cleanup)
 
+	dermacore.store.Add(self.entity, Identifier, "") -- Take the ID slot until the player responds
+
 	return Identifier
 end
 
