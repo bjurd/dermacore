@@ -12,6 +12,18 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip
 	dermacore.store.Add(Chip, Identifier, ClassName)
 end)
 
+dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(_, Chip, Identifier)
+	Chip = Entity(Chip)
+
+	if not IsValid(Chip) then return end
+	if Chip:GetClass() ~= "gmod_wire_expression2" then return end
+
+	local Context = Chip.context
+	if not istable(Context) or Context.player ~= Sender then return end
+
+	dermacore.store.Remove(Chip, Identifier)
+end)
+
 dermacore.ops.RegisterCallback(dermacore.enums.ops.ERROR, function(Sender, Message)
 	WireLib.ClientError(Message, Sender)
 end)
