@@ -1,1 +1,9 @@
--- TODO:
+E2Helper.Descriptions["panelCreate(s)"] = Format("Creates a Panel with the provided class name and returns its identifier. This identifier is how you will reference the Panel.\nReturns -1 on failure. There is a limit of %u Panels per E2 chip", dermacore.store.HighestID)
+E2Helper.Descriptions["panelRemove(n)"] = "Removes a Panel"
+E2Helper.Descriptions["panelSetPos(nnn)"] = "Sets the position of a Panel"
+E2Helper.Descriptions["panelSetSize(nnn)"] = "Sets the size of a Panel"
+E2Helper.Descriptions["panelSetParent(nn)"] = "Parents a Panel to another"
+E2Helper.Descriptions["panelGetParent(n)"] = "Returns the identifier of the parent Panel. Returns 0 if there is no parent and -1 if no sync data exists"
+E2Helper.Descriptions["panelSetDock(nn)"] = "Sets docking on a Panel within its parent.\nSee: https://wiki.facepunch.com/gmod/Enums/DOCK"
+E2Helper.Descriptions["panelCenter(n)"] = "Centers a Panel within its parent"
+E2Helper.Descriptions["panelSetText(ns)"] = "Changes the text of a Panel"
