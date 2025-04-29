@@ -19,3 +19,7 @@ e2function void panelRemove(number identifier)
 	dermacore.store.Remove(self.entity, identifier)
 	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), identifier)
 end
+
+e2function void panelPos(number identifier, number x, number y)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetPos", x, y)
+end

@@ -21,6 +21,23 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(_, Chip, Ide
 	dermacore.store.Remove(Chip, Identifier)
 end)
 
+dermacore.ops.RegisterCallback(dermacore.enums.ops.CALL, function(_, Chip, Identifier, Function, ...)
+	local Panels = dermacore.store.GetPanels(Chip)
+	local Panel = Panels[Identifier]
+
+	if not IsValid(Panel) then
+		return Format("Tried to use '%s' on non-existent Panel %u", Function, Identifier)
+	end
+
+	local TargetFunction = Panel[Function]
+
+	if not isfunction(TargetFunction) then
+		return Format("Tried to call non-existent function '%s' on %u", Function, Identifier)
+	end
+
+	TargetFunction(Panel, ...)
+end)
+
 dermacore.ops.RegisterCallback(dermacore.enums.ops.CLEANUP, function(_, Chip)
 	dermacore.store.Cleanup(Chip)
 end)
