@@ -106,3 +106,15 @@ function dermacore.panel.UnReferenceAll(...)
 
 	return Arguments
 end
+
+function dermacore.panel.Hook(Panel, Name, Function)
+	local Original = Panel[Name]
+
+	Panel[Name] = function(...)
+		if isfunction(Original) then
+			Original(...)
+		end
+
+		return Function(...)
+	end
+end
