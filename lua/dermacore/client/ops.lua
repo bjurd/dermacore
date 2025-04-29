@@ -35,21 +35,31 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CALL, function(_, Chip, Ident
 		return Format("Tried to call non-existent function '%s' on %u", Function, Identifier)
 	end
 
-	local Arguments = { ... }
-
-	for i = 1, #Arguments do -- This is a hacky way of passing a Panel by identifier from server
-		local Argument = Arguments[i]
-
-		if istable(Argument) then
-			local Ref = Argument.i and Panels[Argument.i] or nil
-
-			if Ref then
-				Arguments[i] = Ref
-			end
-		end
-	end
+	local Arguments = dermacore.store.UnRefAll(Panels, ...)
 
 	TargetFunction(Panel, unpack(Arguments))
+end)
+
+dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(_, Chip, Identifier, Function, ...)
+	local Panels = dermacore.store.GetPanels(Chip)
+	local Panel = Panels[Identifier]
+
+	if not IsValid(Panel) then
+		return Format("Tried to use '%s' on non-existent Panel %u", Function, Identifier)
+	end
+
+	local TargetFunction = Panel[Function]
+
+	if not isfunction(TargetFunction) then
+		return Format("Tried to call non-existent function '%s' on %u", Function, Identifier)
+	end
+
+	local Arguments = dermacore.store.UnRefAll(Panels, ...)
+
+	local Result = { TargetFunction(Panel, unpack(Arguments)) }
+	local RefResult = dermacore.store.RefAll(Panels, unpack(Result))
+
+	dermacore.ops.Send(NULL, dermacore.enums.ops.SYNC, Chip, Identifier, Function, unpack(RefResult))
 end)
 
 dermacore.ops.RegisterCallback(dermacore.enums.ops.CLEANUP, function(_, Chip)

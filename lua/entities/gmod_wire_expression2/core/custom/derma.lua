@@ -34,8 +34,23 @@ e2function void panelSize(number identifier, number width, number height)
 	SendPanelFunction(self, identifier, "SetSize", width, height)
 end
 
-e2function void panelParent(number identifier, number parent)
+e2function void panelSetParent(number identifier, number parent)
 	SendPanelFunction(self, identifier, "SetParent", dermacore.store.PanelRef(parent))
+	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), identifier, "GetParent")
+end
+
+e2function number panelGetParent(number identifier)
+	local Data = dermacore.store.GetSync(self.entity, identifier, "GetParent")
+
+	if not Data then
+		return -1
+	end
+
+	local Panels = dermacore.store.GetPanels(self.entity)
+
+	local Parent = dermacore.store.PanelUnRef(Panels, Data[1])
+
+	return table.KeyFromValue(Panels, Parent) or 0 -- BAD
 end
 
 e2function void panelDock(number identifier, number dock)

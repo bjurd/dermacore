@@ -31,6 +31,22 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(Sender, Chip
 	dermacore.store.Remove(Chip, Identifier)
 end)
 
+dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(Sender, Chip, Identifier, Function, ...)
+	if not isnumber(Chip) then return end
+	if not isnumber(Identifier) then return end
+	if not isstring(Function) or string.len(Function) < 1 then return end
+
+	Chip = Entity(Chip)
+
+	if not IsValid(Chip) then return end
+	if Chip:GetClass() ~= "gmod_wire_expression2" then return end
+
+	local Context = Chip.context
+	if not istable(Context) or Context.player ~= Sender then return end
+
+	dermacore.store.SaveSync(Chip, Identifier, Function, ...)
+end)
+
 dermacore.ops.RegisterCallback(dermacore.enums.ops.ERROR, function(Sender, Message)
 	if not isstring(Message) or string.len(Message) < 1 then return end
 
