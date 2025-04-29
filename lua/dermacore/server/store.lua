@@ -28,7 +28,10 @@ end
 function dermacore.store.Add(Chip, Identifier, ClassName)
 	local Panels = dermacore.store.GetPanels(Chip)
 
-	Panels[Identifier] = { ClassName }
+	Panels[Identifier] = {
+		["ClassName"] = ClassName,
+		["Identifier"] = Identifier
+	}
 end
 
 function dermacore.store.Remove(Chip, Identifier)

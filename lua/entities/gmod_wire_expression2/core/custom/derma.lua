@@ -47,10 +47,9 @@ e2function number panelGetParent(number identifier)
 	end
 
 	local Panels = dermacore.store.GetPanels(self.entity)
-
 	local Parent = dermacore.store.PanelUnRef(Panels, Data[1])
 
-	return table.KeyFromValue(Panels, Parent) or 0 -- BAD
+	return Parent and Parent.Identifier or 0
 end
 
 e2function void panelDock(number identifier, number dock)

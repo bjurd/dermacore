@@ -17,6 +17,7 @@ function dermacore.store.Add(Chip, Identifier, Panel)
 	local Panels = dermacore.store.GetPanels(Chip)
 
 	Panels[Identifier] = Panel
+	Panel.Identifier = Identifier
 
 	-- TODO: Make this better
 	Panel.OnRemove = function(self)
