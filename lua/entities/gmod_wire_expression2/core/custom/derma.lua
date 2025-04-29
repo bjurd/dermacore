@@ -2,6 +2,10 @@ E2Lib.RegisterExtension("dermacore", true, "Allows E2 chips to create Derma UI e
 
 --[[******************************************************************************]]
 
+local function SendPanelFunction(self, Identifier, Name, ...)
+	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), Identifier, Name, ...)
+end
+
 e2function number panelCreate(string className)
 	local Identifier = dermacore.store.GetNextIdentifier(self.entity)
 
@@ -23,17 +27,17 @@ e2function void panelRemove(number identifier)
 end
 
 e2function void panelPos(number identifier, number x, number y)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetPos", x, y)
+	SendPanelFunction(self, identifier, "SetPos", x, y)
 end
 
-e2function void panelSize(number identifier, number x, number y)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetSize", x, y)
+e2function void panelSize(number identifier, number width, number height)
+	SendPanelFunction(self, identifier, "SetSize", width, height)
 end
 
 e2function void panelParent(number identifier, number parent)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "SetParent", dermacore.store.PanelRef(parent))
+	SendPanelFunction(self, identifier, "SetParent", dermacore.store.PanelRef(parent))
 end
 
 e2function void panelDock(number identifier, number dock)
-	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), identifier, "Dock", dock)
+	SendPanelFunction(self, identifier, "Dock", dock)
 end
