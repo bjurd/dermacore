@@ -40,6 +40,14 @@ e2function string panel:toString()
 	return tostring(this)
 end
 
+e2function number panel:getIdentifier()
+	return this:GetIdentifier()
+end
+
+e2function string panel:getClassName()
+	return this:GetClassName()
+end
+
 e2function void panel:remove()
 	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), this:GetIdentifier())
 	dermacore.store.Remove(self.entity:EntIndex(), this:GetIdentifier())
