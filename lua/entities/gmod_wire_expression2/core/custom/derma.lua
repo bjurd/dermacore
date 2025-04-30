@@ -20,6 +20,11 @@ local function SendPanelFunction(self, Identifier, Name, ...)
 	dermacore.ops.Send(self.player, dermacore.enums.ops.CALL, self.entity:EntIndex(), Identifier, Name, ...)
 end
 
+local function SendSyncFunction(self, Identifier, SendData, SyncData)
+	SendPanelFunction(self, Identifier, SendData[1], select(2, unpack(SendData)))
+	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), Identifier, SyncData[1], select(2, unpack(SyncData)))
+end
+
 e2function panel panelCreate(string className)
 	local Identifier = dermacore.store.GetNextIdentifier(self.entity:EntIndex())
 
@@ -54,10 +59,18 @@ e2function void panel:remove()
 end
 
 e2function void panel:setVisible(number visible)
-	SendPanelFunction(self, this:GetIdentifier(), "SetVisible", tobool(visible))
+	SendSyncFunction(self, this:GetIdentifier(), { "SetVisible", tobool(visible) }, { "IsVisible" })
 end
 
--- TODO: GetVisible
+e2function number panel:getVisible()
+	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "IsVisible")
+
+	if not Data then
+		return -1
+	end
+
+	return Data[1] and 1 or 0
+end
 
 e2function void panel:makePopup()
 	SendPanelFunction(self, this:GetIdentifier(), "MakePopup")
@@ -76,21 +89,23 @@ end
 -- TODO: GetSize
 
 e2function void panel:setParent(panel parent)
-	SendPanelFunction(self, this:GetIdentifier(), "SetParent", parent:ToReference())
-	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), this:GetIdentifier(), "GetParent")
+	SendSyncFunction(self, this:GetIdentifier(), { "SetParent", parent:ToReference() }, { "GetParent" })
 end
 
-e2function panel panel:getParent() -- TODO:
+e2function panel panel:getParent()
 	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "GetParent")
 
 	if not Data then
 		return NULLPanel
 	end
 
-	local Panels = dermacore.store.GetPanels(self.entity:EntIndex())
-	local Parent = dermacore.store.PanelUnRef(Panels, Data[1])
+	local Parent = dermacore.panel.UnReference(Data[1])
 
-	return Parent or NULLPanel
+	if Parent == Data[1] then
+		return NULLPanel
+	else
+		return Parent
+	end
 end
 
 e2function void panel:dock(number dock)
