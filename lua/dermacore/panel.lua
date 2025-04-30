@@ -11,6 +11,35 @@ AccessorFunc(PANEL, "Identifier", "Identifier", FORCE_NUMBER)
 
 if CLIENT then
 	AccessorFunc(PANEL, "Panel", "Panel")
+
+	function PANEL:SetPanel(Panel)
+		if not ispanel(Panel) then
+			self.Panel = nil
+		else
+			self.Panel = Panel
+
+			if IsValid(Panel) then
+				Panel:SetStoreIdentifier(self:GetChip(), self:GetIdentifier())
+			end
+		end
+	end
+
+	local _PANEL = FindMetaTable("Panel")
+
+	function _PANEL:SetStoreIdentifier(Chip, Identifier)
+		self.m_iChipIndex = Chip
+		self.m_iIdentifier = Identifier
+	end
+
+	function _PANEL:GetStoreIdentifier()
+		return self.m_iChipIndex, self.m_iIdentifier
+	end
+
+	function _PANEL:ToStorePanel()
+		local Chip, Identifier = self:GetStoreIdentifier()
+
+		return dermacore.panel.UnReference({ ["i"] = Identifier, ["c"] = Chip })
+	end
 end
 
 function PANEL:GetChip() -- AccessorFunc sucks
@@ -90,7 +119,14 @@ function dermacore.panel.ReferenceAll(...)
 		if dermacore.panel.IsPanel(Argument) then
 			Arguments[i] = Argument[i]:ToReference()
 		elseif CLIENT and ispanel(Argument) then
-			Arguments[i] = -1
+			-- If a regular Derma Panel appears, try to convert it
+			local StorePanel = Arguments[i]:ToStorePanel()
+
+			if IsValid(StorePanel) then
+				Arguments[i] = StorePanel:ToReference()
+			else
+				Arguments[i] = -1
+			end
 		end
 	end
 
