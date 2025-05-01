@@ -1,14 +1,14 @@
-E2Helper.Descriptions["panelCreate(s)"] = Format("Creates a Panel with the provided class name. Returns NULL Panel on failure.\nThere is a limit of %u Panels per E2 chip", dermacore.store.HighestID)
+E2Helper.Descriptions["panelCreate(s)"] = Format("Creates a Panel with the provided class name. Returns NULL Panel on failure. There is a limit of %u Panels per E2 chip", dermacore.store.HighestID)
 E2Helper.Descriptions["remove(p:)"] = "Removes a Panel"
 E2Helper.Descriptions["getIdentifier(p:)"] = "Returns the unique identifier of a Panel"
 E2Helper.Descriptions["getClassName(p:)"] = "Returns the class name (type) of a Panel"
 E2Helper.Descriptions["setVisible(p:n)"] = "Sets the visibility of a Panel. 0 for hidden, 1 for visible"
-E2Helper.Descriptions["getVisible(p:)"] = "Returns 1 if a Panel is set to be visible, 0 otherwise.\nDoes NOT take into account visibility of parent"
+E2Helper.Descriptions["getVisible(p:)"] = "Returns 1 if a Panel is set to be visible, 0 otherwise. Does NOT take into account visibility of parent"
 E2Helper.Descriptions["makePopup(p:)"] = "Makes a Panel popup and take mouse and keyboard focus"
 E2Helper.Descriptions["setPos(p:nn)"] = "Sets the position of a Panel"
 E2Helper.Descriptions["setSize(p:nn)"] = "Sets the size of a Panel"
 E2Helper.Descriptions["setParent(p:p)"] = "Parents a Panel to another"
 E2Helper.Descriptions["getParent(p:)"] = "Returns the parent Panel. Returns NULL Panel on failure"
-E2Helper.Descriptions["dock(p:n)"] = "Sets docking on a Panel within its parent.\nSee: https://wiki.facepunch.com/gmod/Enums/DOCK"
+E2Helper.Descriptions["dock(p:n)"] = "Sets docking on a Panel within its parent. See: https://wiki.facepunch.com/gmod/Enums/DOCK"
 E2Helper.Descriptions["center(p:)"] = "Centers a Panel within its parent"
 E2Helper.Descriptions["setText(p:s)"] = "Changes the text of a Panel"
