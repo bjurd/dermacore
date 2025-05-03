@@ -1,6 +1,6 @@
 E2Lib.RegisterExtension("dermacore", true, "Allows E2 chips to create Derma UI elements")
 
-local NULLPanel = dermacore.panel.Create("Panel", -1)
+local NULLPanel = dermacore.panel.Create("Panel", "NULL", -1)
 
 registerType(
 	"panel",
