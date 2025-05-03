@@ -32,6 +32,10 @@ end
 function dermacore.store.Add(Chip, Identifier, StorePanel)
 	dermacore.store.Remove(Chip, Identifier)
 
+	if Identifier > dermacore.store.HighestID then
+		return
+	end
+
 	dermacore.store.GetPanels(Chip)[Identifier] = StorePanel
 end
 

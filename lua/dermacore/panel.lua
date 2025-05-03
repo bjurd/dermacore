@@ -91,6 +91,10 @@ end
 function dermacore.panel.Create(Chip, ClassName, Identifier)
 	local Panel = setmetatable({}, PANEL)
 
+	if Identifier > dermacore.store.HighestID then
+		return Panel
+	end
+
 	Panel:SetChip(Chip)
 	Panel:SetClassName(ClassName)
 	Panel:SetIdentifier(Identifier)
