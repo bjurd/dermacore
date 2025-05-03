@@ -48,6 +48,10 @@ e2function panel panelCreate(string className)
 	return Panel
 end
 
+e2function void panel:rawCall(string functionName, ...args)
+	SendPanelFunction(self, this:GetIdentifier(), functionName, unpack(args))
+end
+
 e2function string panel:toString()
 	return tostring(this)
 end
