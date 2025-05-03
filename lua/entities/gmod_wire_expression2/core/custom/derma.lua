@@ -119,7 +119,7 @@ e2function panel panel:getParent()
 	end
 end
 
-e2function void panel:dock(number dock)
+e2function void panel:setDock(number dock)
 	SendPanelFunction(self, this:GetIdentifier(), "Dock", dock)
 end
 
