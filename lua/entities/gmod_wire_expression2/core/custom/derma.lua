@@ -14,6 +14,13 @@ registerType(
 	function(Object) return not ispanel(Object) or Object == NULLPanel end
 end)
 
+E2Lib.registerConstant("DOCK_NONE", 0) -- NODOCK
+E2Lib.registerConstant("DOCK_FILL", 1) -- FILL
+E2Lib.registerConstant("DOCK_LEFT", 2) -- LEFT
+E2Lib.registerConstant("DOCK_RIGHT", 3) -- RIGHT
+E2Lib.registerConstant("DOCK_TOP", 4) -- TOP
+E2Lib.registerConstant("DOCK_BOTTOM", 5) -- BOTTOM
+
 --[[******************************************************************************]]
 
 local function SendPanelFunction(self, Identifier, Name, ...)
