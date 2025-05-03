@@ -91,10 +91,18 @@ e2function void panel:setPos(number x, number y)
 	SendPanelFunction(self, this:GetIdentifier(), "SetPos", x, y)
 end
 
+e2function void panel:setPos(vector2 pos)
+	SendPanelFunction(self, this:GetIdentifier(), "SetPos", pos[1], pos[2])
+end
+
 -- TODO: GetPos
 
 e2function void panel:setSize(number width, number height)
 	SendPanelFunction(self, this:GetIdentifier(), "SetSize", width, height)
+end
+
+e2function void panel:setSize(vector2 size)
+	SendPanelFunction(self, this:GetIdentifier(), "SetSize", size[1], size[2])
 end
 
 -- TODO: GetSize
