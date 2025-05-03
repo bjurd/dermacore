@@ -15,10 +15,12 @@ AddCSLuaFile("store.lua")
 include("store.lua")
 
 AddCSLuaFile("client/ops.lua")
+AddCSLuaFile("client/interaction.lua")
 
 if SERVER then
 	include("server/ops.lua")
 	include("server/store.lua")
 elseif CLIENT then
 	include("client/ops.lua")
+	include("client/interaction.lua")
 end

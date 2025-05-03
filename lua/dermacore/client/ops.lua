@@ -22,19 +22,7 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(_, Chip, Cla
 		dermacore.ops.Send(NULL, dermacore.enums.ops.REMOVE, Chip, Identifier)
 	end)
 
-	dermacore.panel.Hook(Panel, "DoClick", function(self)
-		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelClicked")
-	end)
-
-	dermacore.panel.Hook(Panel, "DoRightClick", function(self)
-		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelRightClicked")
-	end)
-
-	dermacore.panel.Hook(Panel, "DoMiddleClick", function(self)
-		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelMiddleClicked")
-	end)
-
-	dermacore.panel.Hook(Panel, "DoDoubleClick", function(self)
+	dermacore.panel.Hook(Panel, "DoDoubleClick", function(self) -- This one goes here so tracking in VGUIMousePressAllowed isn't needed
 		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelDoubleClicked")
 	end)
 
