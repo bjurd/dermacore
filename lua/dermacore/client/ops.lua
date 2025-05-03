@@ -16,6 +16,7 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(_, Chip, Cla
 	local StorePanel = dermacore.panel.Create(Chip, ClassName, Identifier)
 	StorePanel:SetPanel(Panel)
 
+	-- Events
 	dermacore.panel.Hook(Panel, "OnRemove", function(self)
 		dermacore.store.Remove(Chip, Identifier)
 		dermacore.ops.Send(NULL, dermacore.enums.ops.REMOVE, Chip, Identifier)
@@ -23,6 +24,18 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(_, Chip, Cla
 
 	dermacore.panel.Hook(Panel, "DoClick", function(self)
 		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelClicked")
+	end)
+
+	dermacore.panel.Hook(Panel, "DoRightClick", function(self)
+		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelRightClicked")
+	end)
+
+	dermacore.panel.Hook(Panel, "DoMiddleClick", function(self)
+		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelMiddleClicked")
+	end)
+
+	dermacore.panel.Hook(Panel, "DoDoubleClick", function(self)
+		dermacore.ops.Send(NULL, dermacore.enums.ops.EVENT, Chip, StorePanel:ToReference(), "panelDoubleClicked")
 	end)
 
 	dermacore.store.Add(Chip, Identifier, StorePanel)

@@ -129,3 +129,6 @@ end
 -- TODO: GetText
 
 E2Lib.registerEvent("panelClicked", { {"Panel", "p"} })
+E2Lib.registerEvent("panelRightClicked", { {"Panel", "p"} })
+E2Lib.registerEvent("panelMiddleClicked", { {"Panel", "p"} })
+E2Lib.registerEvent("panelDoubleClicked", { {"Panel", "p"} })
