@@ -125,6 +125,14 @@ end
 
 -- TODO: GetDock
 
+e2function void panel:setDockMargin(number left, number top, number right, number bottom)
+	SendPanelFunction(self, this:GetIdentifier(), "DockMargin", left, top, right, bottom)
+end
+
+e2function void panel:setDockPadding(number left, number top, number right, number bottom)
+	SendPanelFunction(self, this:GetIdentifier(), "DockPadding", left, top, right, bottom)
+end
+
 e2function void panel:center()
 	SendPanelFunction(self, this:GetIdentifier(), "Center")
 end
