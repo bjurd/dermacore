@@ -134,10 +134,18 @@ e2function panel panel:getParent()
 end
 
 e2function void panel:setDock(number dock)
-	SendPanelFunction(self, this:GetIdentifier(), "Dock", dock)
+	SendSyncFunction(self, this:GetIdentifier(), { "Dock", dock }, { "GetDock" })
 end
 
--- TODO: GetDock
+e2function number panel:getDock()
+	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "GetDock")
+
+	if not Data then
+		return -1
+	end
+
+	return Data[1] or -1
+end
 
 e2function void panel:setDockMargin(number left, number top, number right, number bottom)
 	SendPanelFunction(self, this:GetIdentifier(), "DockMargin", left, top, right, bottom)
