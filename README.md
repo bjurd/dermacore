@@ -18,6 +18,7 @@ A list of available functions can be found in the E2Helper menu by searching "de
 | panelRightClicked | Panel | Called when a Panel is clicked with the right mouse button |
 | panelMiddleClicked | Panel | Called when a Panel is clicked with the middle mouse button (Usually the scroll wheel) |
 | panelDoubleClicked | Panel | Called when a Panel is double clicked with the left mouse button. `panelClicked` is still called just before this is. |
+| panelDataSync | Panel, String | Called when a Panel receives sync data from the client |
 
 </details>
 

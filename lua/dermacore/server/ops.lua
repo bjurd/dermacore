@@ -40,6 +40,10 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(Sender, Chip, 
 	if not ChipOwnedByPlayer(Chip, Sender) then return end
 
 	dermacore.store.SaveSync(Chip, Identifier, Function, ...)
+
+	local Panel = dermacore.store.GetPanels(Chip)[Identifier]
+
+	Entity(Chip):ExecuteEvent("panelDataSync", { Panel, Function })
 end)
 
 dermacore.ops.RegisterCallback(dermacore.enums.ops.EVENT, function(Sender, Chip, Panel, Event, ...)
