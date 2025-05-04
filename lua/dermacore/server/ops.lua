@@ -1,5 +1,6 @@
 local function ChipOwnedByPlayer(Chip, Player)
 	if not isnumber(Chip) then return false end
+	if not isentity(Player) or not Player:IsPlayer() then return false end
 
 	local ChipEnt = Entity(Chip)
 
@@ -7,7 +8,7 @@ local function ChipOwnedByPlayer(Chip, Player)
 	if ChipEnt:GetClass() ~= "gmod_wire_expression2" then return false end
 
 	local Context = ChipEnt.context
-	if not istable(Context) or Context.player ~= Sender then return false end
+	if not istable(Context) or Context.player ~= Player then return false end
 
 	return true
 end
