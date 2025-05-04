@@ -70,6 +70,14 @@ e2function number operator==(panel a, panel b)
 	return a == b and 1 or 0
 end
 
+e2function string operator+(panel a, string b)
+	return tostring(a) .. b
+end
+
+e2function string operator+(string a, panel b)
+	return a .. tostring(b)
+end
+
 e2function void panel:remove()
 	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), this:GetIdentifier())
 	dermacore.store.Remove(self.entity:EntIndex(), this:GetIdentifier())
