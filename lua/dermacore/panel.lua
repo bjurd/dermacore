@@ -121,10 +121,10 @@ function dermacore.panel.ReferenceAll(...)
 		local Argument = Arguments[i]
 
 		if dermacore.panel.IsPanel(Argument) then
-			Arguments[i] = Argument[i]:ToReference()
+			Arguments[i] = Argument:ToReference()
 		elseif CLIENT and ispanel(Argument) then
 			-- If a regular Derma Panel appears, try to convert it
-			local StorePanel = Arguments[i]:ToStorePanel()
+			local StorePanel = Argument:ToStorePanel()
 
 			if IsValid(StorePanel) then
 				Arguments[i] = StorePanel:ToReference()

@@ -49,7 +49,9 @@ e2function panel panelCreate(string className)
 end
 
 e2function void panel:rawCall(string functionName, ...args)
-	SendPanelFunction(self, this:GetIdentifier(), functionName, unpack(args))
+	local Arguments = dermacore.panel.ReferenceAll(unpack(args))
+
+	SendPanelFunction(self, this:GetIdentifier(), functionName, unpack(Arguments))
 end
 
 e2function string panel:toString()
