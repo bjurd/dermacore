@@ -18,7 +18,7 @@ A list of available functions can be found in the E2Helper menu by searching "de
 | panelRightClicked | Panel | Called when a Panel is clicked with the right mouse button |
 | panelMiddleClicked | Panel | Called when a Panel is clicked with the middle mouse button (Usually the scroll wheel) |
 | panelDoubleClicked | Panel | Called when a Panel is double clicked with the left mouse button. `panelClicked` is still called just before this is. |
-| panelDataSync | Panel, String | Called when a Panel receives sync data from the client |
+| panelDataSync | Panel, String | Called when a Panel receives sync data from the client. Second argument is the name of the function being synced (i.e. GetText) |
 
 </details>
 
@@ -49,7 +49,7 @@ If you are unfamiliar with VGUI, Derma, or working with Panels, you can view a l
 
 # Installation
 
-Clone the repository to the `/garrysmod/addons/` folder, the resulting folder will be placed at `/garrysmod/addons/dermacore`.
+Clone the repository to the `/garrysmod/addons/` folder, the resulting folder should be placed at `/garrysmod/addons/dermacore`.
 
 <details>
 
