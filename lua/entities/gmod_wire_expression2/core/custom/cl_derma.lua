@@ -7,3 +7,4 @@ E2Helper.Descriptions["getSyncedPanel(p:s)"] = "Retrieve the synced Panel of a f
 E2Helper.Descriptions["remove(p:)"] = "Removes a Panel."
 E2Helper.Descriptions["getIdentifier(p:)"] = "Returns the unique identifier of a Panel."
 E2Helper.Descriptions["getClassName(p:)"] = "Returns the class name (type) of a Panel."
+E2Helper.Descriptions["isValid(p:)"] = "Returns 1 if a Panel is valid (i.e. not NULL Panel), 0 if invalid."

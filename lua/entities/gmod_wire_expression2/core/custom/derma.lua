@@ -60,6 +60,10 @@ e2function string panel:getClassName()
 	return this:GetClassName()
 end
 
+e2function number panel:isValid()
+	return this:IsValid() and 1 or 0
+end
+
 e2function number operator==(panel a, panel b)
 	return a == b and 1 or 0
 end
