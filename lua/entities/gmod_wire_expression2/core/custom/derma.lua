@@ -48,7 +48,31 @@ e2function panel panelCreate(string className)
 	return Panel
 end
 
-e2function void panel:rawCall(string functionName, ...args)
+e2function string panel:toString()
+	return tostring(this)
+end
+
+e2function number panel:getIdentifier()
+	return this:GetIdentifier()
+end
+
+e2function string panel:getClassName()
+	return this:GetClassName()
+end
+
+e2function number operator==(panel a, panel b)
+	return a == b and 1 or 0
+end
+
+e2function string operator+(panel a, string b)
+	return tostring(a) .. b
+end
+
+e2function string operator+(string a, panel b)
+	return a .. tostring(b)
+end
+
+e2function void panel:call(string functionName, ...args)
 	local Arguments = dermacore.panel.ReferenceAll(unpack(args))
 
 	SendPanelFunction(self, this:GetIdentifier(), functionName, unpack(Arguments))
@@ -97,124 +121,10 @@ e2function panel panel:getSyncedPanel(string functionName)
 	end
 end
 
-e2function string panel:toString()
-	return tostring(this)
-end
-
-e2function number panel:getIdentifier()
-	return this:GetIdentifier()
-end
-
-e2function string panel:getClassName()
-	return this:GetClassName()
-end
-
-e2function number operator==(panel a, panel b)
-	return a == b and 1 or 0
-end
-
-e2function string operator+(panel a, string b)
-	return tostring(a) .. b
-end
-
-e2function string operator+(string a, panel b)
-	return a .. tostring(b)
-end
-
 e2function void panel:remove()
 	dermacore.ops.Send(self.player, dermacore.enums.ops.REMOVE, self.entity:EntIndex(), this:GetIdentifier())
 	dermacore.store.Remove(self.entity:EntIndex(), this:GetIdentifier())
 end
-
-e2function void panel:setVisible(number visible)
-	SendSyncFunction(self, this:GetIdentifier(), { "SetVisible", tobool(visible) }, { "IsVisible" })
-end
-
-e2function number panel:getVisible()
-	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "IsVisible")
-
-	if not Data then
-		return -1
-	end
-
-	return Data[1] and 1 or 0
-end
-
-e2function void panel:makePopup()
-	SendPanelFunction(self, this:GetIdentifier(), "MakePopup")
-end
-
-e2function void panel:setPos(number x, number y)
-	SendPanelFunction(self, this:GetIdentifier(), "SetPos", x, y)
-end
-
-e2function void panel:setPos(vector2 pos)
-	SendPanelFunction(self, this:GetIdentifier(), "SetPos", pos[1], pos[2])
-end
-
--- TODO: GetPos
-
-e2function void panel:setSize(number width, number height)
-	SendPanelFunction(self, this:GetIdentifier(), "SetSize", width, height)
-end
-
-e2function void panel:setSize(vector2 size)
-	SendPanelFunction(self, this:GetIdentifier(), "SetSize", size[1], size[2])
-end
-
--- TODO: GetSize
-
-e2function void panel:setParent(panel parent)
-	SendSyncFunction(self, this:GetIdentifier(), { "SetParent", parent:ToReference() }, { "GetParent" })
-end
-
-e2function panel panel:getParent()
-	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "GetParent")
-
-	if not Data then
-		return NULLPanel
-	end
-
-	local Parent = dermacore.panel.UnReference(Data[1])
-
-	if Parent == Data[1] then
-		return NULLPanel
-	else
-		return Parent
-	end
-end
-
-e2function void panel:setDock(number dock)
-	SendSyncFunction(self, this:GetIdentifier(), { "Dock", dock }, { "GetDock" })
-end
-
-e2function number panel:getDock()
-	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), "GetDock")
-
-	if not Data then
-		return -1
-	end
-
-	return Data[1] or -1
-end
-
-e2function void panel:setDockMargin(number left, number top, number right, number bottom)
-	SendPanelFunction(self, this:GetIdentifier(), "DockMargin", left, top, right, bottom)
-end
-
-e2function void panel:setDockPadding(number left, number top, number right, number bottom)
-	SendPanelFunction(self, this:GetIdentifier(), "DockPadding", left, top, right, bottom)
-end
-
-e2function void panel:center()
-	SendPanelFunction(self, this:GetIdentifier(), "Center")
-end
-
-e2function void panel:setText(string text)
-	SendPanelFunction(self, this:GetIdentifier(), "SetText", text)
-end
-
--- TODO: GetText
 
 E2Lib.registerEvent("panelClicked", { {"Panel", "p"} })
 E2Lib.registerEvent("panelRightClicked", { {"Panel", "p"} })
