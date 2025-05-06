@@ -4,8 +4,6 @@ local function HookMousePress(GAMEMODE)
 		return
 	end
 
-	hook.Remove("VGUIMousePressAllowed", "WorldPickerMouseDisable") -- TODO: Remove this when https://github.com/Facepunch/garrysmod/pull/2285 is accepted
-
 	if not GAMEMODE.BaseVGUIMousePressAllowed then
 		-- Anti auto-refresh
 		GAMEMODE.BaseVGUIMousePressAllowed = GAMEMODE.VGUIMousePressAllowed or true
