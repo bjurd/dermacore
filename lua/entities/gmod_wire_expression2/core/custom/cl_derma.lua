@@ -1,5 +1,9 @@
 E2Helper.Descriptions["panelCreate(s)"] = Format("Creates a Panel with the provided class name. Returns NULL Panel on failure. There is a limit of %u Panels per E2 chip", dermacore.store.HighestID)
 E2Helper.Descriptions["rawCall(p:s...)"] = "Calls any function with any number of arguments on a Panel. Can be used to call functions not implemented via E2"
+E2Helper.Descriptions["sync(p:s...)"] = "Manually syncs the returns from any function to the server. This will call panelDataSync"
+E2Helper.Descriptions["getSyncedNumber(p:s)"] = "Retrieve the synced number of a function. Returns NaN on failure"
+E2Helper.Descriptions["getSyncedString(p:s)"] = "Retrieve the synced string of a function. Returns an empty string on failure"
+E2Helper.Descriptions["getSyncedPanel(p:s)"] = "Retrieve the synced Panel of a function. Returns NULL Panel on failure"
 E2Helper.Descriptions["remove(p:)"] = "Removes a Panel"
 E2Helper.Descriptions["getIdentifier(p:)"] = "Returns the unique identifier of a Panel"
 E2Helper.Descriptions["getClassName(p:)"] = "Returns the class name (type) of a Panel"

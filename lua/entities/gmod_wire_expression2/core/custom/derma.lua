@@ -54,6 +54,49 @@ e2function void panel:rawCall(string functionName, ...args)
 	SendPanelFunction(self, this:GetIdentifier(), functionName, unpack(Arguments))
 end
 
+e2function void panel:sync(string functionName, ...args)
+	local Arguments = dermacore.panel.ReferenceAll(unpack(args))
+
+	dermacore.ops.Send(self.player, dermacore.enums.ops.SYNC, self.entity:EntIndex(), this:GetIdentifier(), functionName, unpack(Arguments))
+end
+
+e2function number panel:getSyncedNumber(string functionName)
+	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), functionName)
+
+	if not Data then
+		return (0 / 0)
+	end
+
+	return tonumber(Data[1]) or (0 / 0)
+end
+
+e2function string panel:getSyncedString(string functionName)
+	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), functionName)
+
+	if not Data then
+		return ""
+	end
+
+	return Data[1] or ""
+end
+
+e2function panel panel:getSyncedPanel(string functionName)
+	local Data = dermacore.store.GetSync(self.entity:EntIndex(), this:GetIdentifier(), functionName)
+
+	if not Data then
+		return NULLPanel
+	end
+
+	local UnReferenced = dermacore.panel.UnReference(Data[1])
+
+	if UnReferenced == Data[1] then
+		-- UnReference failed
+		return NULLPanel
+	else
+		return UnReferenced
+	end
+end
+
 e2function string panel:toString()
 	return tostring(this)
 end
