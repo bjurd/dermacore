@@ -47,6 +47,10 @@ If you are unfamiliar with Expression 2 or its syntax, you can learn how to use 
 
 If you are unfamiliar with VGUI, Derma, or working with Panels, you can view a list of available elements on the Garry's Mod Wiki [here](https://gmodwiki.com/VGUI_Element_List) and a basic Panel tutorial [here](https://gmodwiki.com/Derma_Basic_Guide).
 
+> [!WARNING]
+> Data is ONLY synced upon direct request.
+> This means that if something changes clientside, such as text being entered into a textbox, it will NOT automatically sync.
+
 # Installation
 
 Clone the repository to the `/garrysmod/addons/` folder, the resulting folder should be placed at `/garrysmod/addons/dermacore`.
