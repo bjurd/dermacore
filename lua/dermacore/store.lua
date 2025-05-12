@@ -32,7 +32,7 @@ end
 function dermacore.store.Add(Chip, Identifier, StorePanel)
 	dermacore.store.Remove(Chip, Identifier)
 
-	if Identifier > dermacore.store.HighestID then
+	if Identifier < 1 or Identifier > dermacore.store.HighestID then
 		return
 	end
 
