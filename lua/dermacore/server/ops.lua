@@ -22,6 +22,8 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.CREATE, function(Sender, Chip
 	if not ChipOwnedByPlayer(Chip, Sender) then return end
 
 	local Panel = dermacore.panel.Create(Chip, ClassName, Identifier)
+	if not IsValid(Panel) then return end
+
 	dermacore.store.Add(Chip, Identifier, Panel)
 end)
 
@@ -33,6 +35,7 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.REMOVE, function(Sender, Chip
 	dermacore.store.Remove(Chip, Identifier)
 end)
 
+-- TODO: Sync can be abused to store large amount of data on the server
 dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(Sender, Chip, Identifier, Function, ...)
 	if not isnumber(Identifier) then return end
 	if not isstring(Function) or string.len(Function) < 1 then return end
@@ -42,6 +45,7 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.SYNC, function(Sender, Chip, 
 	dermacore.store.SaveSync(Chip, Identifier, Function, ...)
 
 	local Panel = dermacore.store.GetPanels(Chip)[Identifier]
+	if not IsValid(Panel) then return end
 
 	Entity(Chip):ExecuteEvent("panelDataSync", { Panel, Function })
 end)
@@ -50,7 +54,9 @@ dermacore.ops.RegisterCallback(dermacore.enums.ops.EVENT, function(Sender, Chip,
 	if not ChipOwnedByPlayer(Chip, Sender) then return end
 
 	Panel = dermacore.panel.UnReference(Panel)
+
 	if not dermacore.panel.IsPanel(Panel) then return end
+	if not IsValid(Panel) then return end
 
 	Entity(Chip):ExecuteEvent(Event, { Panel })
 end)
